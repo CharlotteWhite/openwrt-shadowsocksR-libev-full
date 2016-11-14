@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=shadowsocksR-libev
-PKG_VERSION:=2.4.6
-PKG_RELEASE:=1
+PKG_VERSION:=2.4.6.2
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_RELEASE).tar.gz
 PKG_SOURCE_URL:=https://github.com/glzjin/shadowsocks-libev.git
@@ -159,17 +159,17 @@ define Package/shadowsocksr-libev/install
 	$(INSTALL_BIN) ./files/shadowsocksr $(1)/etc/init.d/shadowsocksr
 	$(INSTALL_CONF) ./files/shadowsocksr.json $(1)/etc/shadowsocksr.json
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-local $(1)/usr/bin/ssr-local
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-redir $(1)/usr/bin/ssr-redir
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-tunnel $(1)/usr/bin/ssr-tunnel
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-local $(1)/usr/bin/ss-local
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-redir $(1)/usr/bin/ss-redir
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-tunnel $(1)/usr/bin/ss-tunnel
 endef
 
 Package/shadowsocksr-libev-polarssl/install=$(Package/shadowsocksr-libev/install)
 
 define Package/shadowsocksr-libev-gfwlist/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-redir $(1)/usr/bin/ssr-redir
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-tunnel $(1)/usr/bin/ssr-tunnel
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-redir $(1)/usr/bin/ss-redir
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-tunnel $(1)/usr/bin/ss-tunnel
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/shadowsocksr-gfwlist $(1)/etc/init.d/shadowsocksr
 	$(INSTALL_CONF) ./files/shadowsocksr-gfwlist.json $(1)/etc/shadowsocksr.json.main
@@ -180,7 +180,7 @@ define Package/shadowsocksr-libev-gfwlist/install
 	$(INSTALL_CONF) ./files/gfw_list.conf $(1)/etc/dnsmasq.d/gfw_list.conf
 	$(INSTALL_CONF) ./files/custom_list.conf $(1)/etc/dnsmasq.d/custom_list.conf
 	$(INSTALL_DIR) $(1)/root
-	$(INSTALL_BIN) ./files/ssr-watchdog $(1)/root/ssr-watchdog
+	$(INSTALL_BIN) ./files/ss-watchdog $(1)/root/ss-watchdog
 	$(INSTALL_DIR) $(1)/etc/crontabs
 	$(INSTALL_CONF) ./files/root $(1)/etc/crontabs/root
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/controller
@@ -201,7 +201,7 @@ define Package/shadowsocksr-libev-server/install
 	$(INSTALL_CONF) ./files/shadowsocksr-server.json $(1)/etc/shadowsocksr-server.json
 	$(INSTALL_BIN) ./files/shadowsocksr-server $(1)/etc/init.d/shadowsocksr-server
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-server $(1)/usr/bin/ssr-server
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-server $(1)/usr/bin/\server
 endef
 
 Package/shadowsocksr-libev-server-polarssl/install=$(Package/shadowsocksr-libev-server/install)

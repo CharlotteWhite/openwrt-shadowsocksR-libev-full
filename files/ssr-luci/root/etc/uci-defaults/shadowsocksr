@@ -1,0 +1,14 @@
+#!/bin/sh
+uci -q batch <<-EOF >/dev/null
+	delete ucitrack.@shadowsocksr[-1]
+	add ucitrack shadowsocksr
+	set ucitrack.@shadowsocksr[-1].init=shadowsocksr
+	commit ucitrack
+	delete firewall.shadowsocksr
+	set firewall.shadowsocks=include
+	set firewall.shadowsocks.type=script
+	set firewall.shadowsocks.path=/var/etc/shadowsocksr.include
+	set firewall.shadowsocks.reload=1
+	commit firewall
+EOF
+exit 0

@@ -123,6 +123,19 @@ ss_redir() {
 	fi
 }
 
+start_local() {
+	gen_config_file $1
+	ssr-local -c $CONFIG_FILE -u $(get_arg_tfo $1) \
+		-l $(uci_get_by_type socks5_proxy local_port 1080) \
+		-f /var/run/ssr-local.pid
+}
+
+ss_local() {
+	command -v ssr-local >/dev/null 2>&1 || return 0
+	local server=$(uci_get_by_type socks5_proxy server)
+	valid_server $server && start_local $server
+}
+
 start_tunnel() {
 	gen_config_file $1
 	ssr-tunnel -c $CONFIG_FILE -u \
@@ -141,6 +154,7 @@ start() {
 	mkdir -p /var/run /var/etc
 	ss_redir && rules
 	ss_tunnel
+	ss_local
 	rm -f $CONFIG_FILE
 }
 
@@ -150,5 +164,5 @@ kill_all() {
 
 stop() {
 	/usr/bin/ssr-rules -f
-	kill_all ssr-redir ssr-tunnel
+	kill_all ssr-redir ssr-tunnel ssr-local
 }

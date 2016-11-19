@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=shadowsocksR-libev
-PKG_VERSION:=3.0.3
-PKG_RELEASE:=5
+PKG_VERSION:=3.0.4
+PKG_RELEASE:=6
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_RELEASE).tar.gz
 PKG_SOURCE_URL:=https://github.com/glzjin/shadowsocks-libev.git
@@ -83,10 +83,13 @@ define Package/shadowsocksr-libev/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-redir $(1)/usr/bin/ssr-redir
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-tunnel $(1)/usr/bin/ssr-tunnel
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/src/ss-local $(1)/usr/bin/ssr-local
 	$(INSTALL_DIR) $(1)/root
 	$(INSTALL_BIN) ./files/ssr/ssr-watchdog $(1)/root/ssr-watchdog
 	$(INSTALL_DIR) $(1)/etc/crontabs
 	$(INSTALL_CONF) ./files/ssr/root $(1)/etc/crontabs/root
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/view/shadowsocksr-libev
+	$(INSTALL_CONF) ./files/ssr/watchdogr.htm $(1)/usr/lib/lua/luci/view/shadowsocksr-libev/watchdogr.htm
 
 	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/shadowsocksr.*.lmo $(1)/usr/lib/lua/luci/i18n/

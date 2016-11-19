@@ -20,6 +20,10 @@ function index()
 		arcombine(cbi("shadowsocksr/servers"), cbi("shadowsocksr/servers-details")),
 		_("Servers Manage"), 20).leaf = true
 
+	entry({"admin", "services", "shadowsocksr", "watchdog"},
+		call("action_watchdog"),
+		_("Watchdog Log"), 30).leaf = true
+
 	if luci.sys.call("command -v ssr-redir >/dev/null") ~= 0 then
 		return
 	end
@@ -27,4 +31,12 @@ function index()
 	entry({"admin", "services", "shadowsocksr", "access-control"},
 		cbi("shadowsocksr/access-control"),
 		_("Access Control"), 30).leaf = true
+end
+
+
+function action_watchdog()
+	local fs = require "nixio.fs"
+	local conffile = "/var/log/shadowsocksr_watchdog.log"
+	local watchdog = fs.readfile(conffile) or ""
+	luci.template.render("shadowsocksr-libev/watchdogr", {watchdog=watchdog})
 end
